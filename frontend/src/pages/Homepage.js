@@ -244,15 +244,19 @@ const HomePage = () => {
                 <div className="col-lg-6 order-md-0">
                     {/* Surtitle */}
                     <h5 className="h5 mb-5 text-uppercase text-warning mb-5">
-                    Everyones favorite llama
+                    🦙   
+                    🦙 
+                    🦙 
+                    🦙 
+                    🦙  🦙 🦙 🦙 🦙 🦙 🦙 🦙 🦙 🦙 🦙 🦙  🦙 🦙 🦙 🦙 🦙    
                     </h5>
                     {/* Heading */}
                     <h1 className="ls-tight font-bolder display-3 mb-5">
-                    The worlds best financial partner
+                    The worlds best financial llama
                     </h1>
                     {/* Text */}
                     <p className="lead mb-10">
-                    Understand how your life decisions will affect your net worth over your lifetime. TaxLlama will help you find the best outcomes for you.
+                    Understand how your life decisions will affect your net worth over your lifetime. Let the Tax Llama optimize your life
                     </p>
                     {/* Buttons */}
                     <div className="mx-n2">
@@ -261,9 +265,6 @@ const HomePage = () => {
                         className="btn btn-lg btn-primary shadow-sm mx-2 px-lg-8"
                     >
                         Get started
-                    </a>
-                    <a href="#" className="btn btn-lg btn-neutral mx-2 px-lg-8">
-                        Learn more
                     </a>
                     </div>
                 </div>
