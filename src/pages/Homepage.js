@@ -252,7 +252,7 @@ const HomePage = () => {
                     </h1>
                     {/* Text */}
                     <p className="lead mb-10">
-                    Understand how your life decisions will affect your net worth over your lifetime. TaxLlama will help you find the best outcomes for you. 
+                    Understand how your life decisions will affect your net worth over your lifetime. TaxLlama will help you find the best outcomes for you.
                     </p>
                     {/* Buttons */}
                     <div className="mx-n2">
