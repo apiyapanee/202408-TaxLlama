@@ -2,7 +2,7 @@ import requests
 import json
 
 # Open session to enable streaming
-API_KEY = ""
+API_KEY = "QLk2AhIS.ay5p1g5DPDeAcNqveNziEOmh2hW42b6Q"
 
 s = requests.Session()
 with s.post(
