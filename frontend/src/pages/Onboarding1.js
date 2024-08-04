@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NavbarWithLlama from '../components/NavbarWithLlama';
-import llary from '../assets/images/taxllama.png';
 import { FaCheckCircle, FaEdit } from 'react-icons/fa'; 
 import llama from '../assets/gifs/llama.gif';
 
@@ -11,6 +10,7 @@ const Onboarding1 = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [file, setFile] = useState(null); // State to store the uploaded file
+    const [uploadSuccess, setUploadSuccess] = useState(false); // State to manage upload success message
     const navigate = useNavigate(); // Create navigate instance
 
     const handleNextStep = () => {
@@ -22,7 +22,12 @@ const Onboarding1 = () => {
         if (uploadedFile) {
             setFile(uploadedFile);
             console.log("File uploaded:", uploadedFile);
-            navigate('/onboarding2'); // Navigate to Onboarding2 after file upload
+            setUploadSuccess(true); // Set upload success to true to show the message
+
+            // Set a timeout to navigate after showing the success message
+            setTimeout(() => {
+              setCurrentStep(currentStep + 1);
+            }, 2000); // Adjust the delay as needed
         }
     };
 
@@ -83,6 +88,7 @@ const Onboarding1 = () => {
                     >
                         Upload Files
                     </button>
+                    {uploadSuccess && <p className="mt-2">File uploaded successfully!</p>}
                 </div>
             )}
 
