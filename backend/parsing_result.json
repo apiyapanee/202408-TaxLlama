@@ -1,0 +1,104 @@
+{
+  "categories": [
+    {
+      "name": "Maximize Deductions",
+      "approaches": [
+        {
+          "name": "Bunch those charitable donations!",
+          "savings": "$500",
+          "details": "Donate to your favorite charities in bulk to itemize and save!"
+        },
+        {
+          "name": "Business use of home, sweet home!",
+          "savings": "$1,000",
+          "details": "Claim that home office deduction, Amy!"
+        },
+        {
+          "name": "Medical miles add up!",
+          "savings": "$200",
+          "details": "Track those medical miles, Amy, and deduct 'em!"
+        }
+      ]
+    },
+    {
+      "name": "Optimize Investments",
+      "approaches": [
+        {
+          "name": "Retirement savings rock!",
+          "savings": "$1,500",
+          "details": "Contribute more to your retirement accounts, Amy!"
+        },
+        {
+          "name": "Tax-loss harvesting, yeah!",
+          "savings": "$1,000",
+          "details": "Offset gains with losses, Amy, and save!"
+        },
+        {
+          "name": "Dividend-paying stocks, yay!",
+          "savings": "$500",
+          "details": "Invest in dividend-paying stocks, Amy, for tax efficiency!"
+        }
+      ]
+    },
+    {
+      "name": "Education and Growth",
+      "approaches": [
+        {
+          "name": "Learn and earn, Amy!",
+          "savings": "$1,000",
+          "details": "Take courses or get certified to boost income!"
+        },
+        {
+          "name": "Education credits, explore!",
+          "savings": "$500",
+          "details": "Look into education credits, Amy, for future learning!"
+        },
+        {
+          "name": "Professional fees, deduct 'em!",
+          "savings": "$200",
+          "details": "Claim those professional fees, Amy, and save!"
+        }
+      ]
+    },
+    {
+      "name": "Home Sweet Home",
+      "approaches": [
+        {
+          "name": "Buy a home, maybe?",
+          "savings": "$2,000",
+          "details": "Consider buying a home, Amy, for mortgage interest deductions!"
+        },
+        {
+          "name": "Renting? Still deduct!",
+          "savings": "$500",
+          "details": "Claim that renter's deduction, Amy, if available!"
+        },
+        {
+          "name": "Home office, again!",
+          "savings": "$1,000",
+          "details": "Maximize that home office deduction, Amy!"
+        }
+      ]
+    },
+    {
+      "name": "Family and Future",
+      "approaches": [
+        {
+          "name": "Get married, maybe?",
+          "savings": "$1,500",
+          "details": "Consider marriage, Amy, for joint filing benefits!"
+        },
+        {
+          "name": "Start a family, someday?",
+          "savings": "$2,000",
+          "details": "Plan for kids, Amy, and claim those child tax credits!"
+        },
+        {
+          "name": "Leave a legacy, Amy!",
+          "savings": "$1,000",
+          "details": "Consider estate planning, Amy, for future generations!"
+        }
+      ]
+    }
+  ]
+}

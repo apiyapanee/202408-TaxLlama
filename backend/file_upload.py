@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -7,6 +7,9 @@ load_dotenv()
 from llama_parse import LlamaParse
 from llama_index.core import SimpleDirectoryReader
 from llama_index.core import VectorStoreIndex
+import tempfile
+import json
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -46,7 +49,8 @@ queries_stats = [
 
 def parse_doc(file, queries, filetype=".pdf", result_type="markdown"):
     parser = LlamaParse(
-        result_type=result_type
+        result_type=result_type,
+        api_key=api_key
     )
     documents = SimpleDirectoryReader(input_files=[file], file_extractor={filetype: parser}).load_data()
     index = VectorStoreIndex.from_documents(documents)
@@ -85,6 +89,34 @@ def upload_file():
     #     responses, query_engine = parse_doc(file, queries_user_info)
     #     print("responses: ", responses)
     #     return 'File received and contents printed on server console', 200
+      
+    # if file:
+    #     # Create a temporary file
+    #     with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
+    #         file.save(temp_file.name)
+    #         temp_file_path = temp_file.name
+
+    #     try:
+    #         responses, query_engine = parse_doc(temp_file_path, queries_user_info)
+    #         print("responses: ", responses)
+    #         return 'File processed successfully', 200
+    #     finally:
+    #         # Clean up the temporary file
+    #         os.unlink(temp_file_path)
+
+
+@app.route('/data', methods=['GET'])
+def get_results():
+    try:
+        with open('parsing_result.json', 'r') as file:
+            data = json.load(file)
+        return jsonify(data), 200
+    except FileNotFoundError:
+        return jsonify({"error": "Results not found"}), 404
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON data"}), 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
