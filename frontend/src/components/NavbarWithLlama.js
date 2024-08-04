@@ -1,5 +1,6 @@
 import React from 'react';
-import llary from '../assets/images/llamalogo.png'; // Adjust the path if necessary
+import llary from '../assets/images/taxllama.png'; // Adjust the path if necessary
+import logo from '../assets/images/llamalogo.png'; // Adjust the path if necessary
 
 const NavbarWithLlama = () => {
   return (
@@ -9,7 +10,7 @@ const NavbarWithLlama = () => {
                 {/* Logo */}
                 <a className="navbar-brand d-flex align-items-center" href="/">
                 <img
-                    src={llary}
+                    src={logo}
                     className="h-16"
                     alt="..."
                     style={{ height: '40px', marginRight: '10px' }} // Adjust the size and margin as needed
