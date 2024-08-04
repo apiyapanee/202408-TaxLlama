@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import graph from  '../assets/images/placeholder_graph.png';
 import { getAuth } from 'firebase/auth';
+import { getFirestore, doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
 const jsonDataBackup = {
   "categories": [
@@ -111,24 +112,30 @@ const jsonDataBackup = {
 const Dashboard = () => {
 
   const [jsonData, setJsonData] = useState()
+  const [selectedOptimizations, setSelectedOptimizations] = useState([]);
+  const auth = getAuth();
+  const db = getFirestore();
 
   const learnMore = () => {
     console.log("Learn More");
   }
 
-  const addItem = () => {
-    console.log("Add Item");
-  }
-
-  useEffect(() => {
-    const auth = getAuth();
+  const addItem = async(item) => {
     const user = auth.currentUser;
     if (user) {
-      console.log("Authenticated user ID:", user.uid);
+      try {
+        const userDoc = doc(db, 'users', user.uid);
+        await updateDoc(userDoc, {
+          selectedOptimizations: arrayUnion(item)
+        });
+        setSelectedOptimizations(prev => [...prev, item]);
+      } catch (error) {
+        console.error("Error adding item: ", error);
+      }
     } else {
       console.log("No authenticated user.");
     }
-  }, []);
+  }
 
   useEffect(() => {
     const getJsonData = async () => {
@@ -153,6 +160,36 @@ const Dashboard = () => {
     </div>
   }
 
+    const fetchSelectedOptimizations = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userDoc = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(userDoc);
+        if (docSnap.exists()) {
+          setSelectedOptimizations(docSnap.data().selectedOptimizations || []);
+        }
+      }
+    };
+    console.log("fetching selectedOptimizations")
+    fetchSelectedOptimizations();
+
+    if (auth.currentUser) {
+      console.log("Authenticated user ID:", auth.currentUser.uid);
+    } else {
+      console.log("No authenticated user.");
+    }
+  }, [auth]);
+
+  const totalSavings = selectedOptimizations.reduce((total, item) => {
+    const savingsStr = typeof item.savings === 'string' ? item.savings : `${item.savings}`;
+    const savings = parseFloat(savingsStr.replace(/[^0-9.-]+/g, ""));
+    console.log(`Item: ${item.name}, Savings: ${item.savings}, Parsed Savings: ${savings}`);
+    return total + savings;
+  }, 0) * 10;
+  console.log(`Total Savings: ${totalSavings}`);
+  
+
+  
   return (
     <div>
       <Navbar />
@@ -178,8 +215,8 @@ const Dashboard = () => {
               <div className="mb-4 p-8 bg-gray-100 rounded shadow-sm">
                 <div className="d-flex align-items-center">
                   <div className="flex-grow-1">
-                    <h2>$142,255</h2>
-                    <p>Net Worth Today</p>
+                    <h2>${totalSavings.toFixed(2)}</h2>
+                    <p>10 year savings</p>
                   </div>
                   {/* Graph Section */}
                   <div className="mt-4" style={{ flex: '1', textAlign: 'center' }}>
@@ -208,7 +245,14 @@ const Dashboard = () => {
                             </div>
                             <div className="d-flex justify-content-between p-3">
                               <a href="#" className="btn btn-outline-primary btn-sm" onClick={learnMore}>Learn More</a>
-                              <a href="#" className="btn btn-outline-primary btn-sm" onClick={addItem}>Add</a>
+                              <a 
+                                href="#" 
+                                className={`btn btn-sm ${selectedOptimizations.some(item => item.name === approach.name) ? 'btn-secondary' : 'btn-outline-primary'}`} 
+                                onClick={() => addItem(approach)} 
+                                disabled={selectedOptimizations.some(item => item.name === approach.name)}>
+                                Add
+                              </a>
+
                             </div>
                         </div>
                       </div>
@@ -246,19 +290,37 @@ const Dashboard = () => {
                   <div className="m-2">
                     <span className="badge bg-black rounded-pill">To Do</span>
                   </div>
-                  <div className="m-2">
+                  {/* <div className="m-2">
                     <span className="badge bg-white text-black border border-black rounded-pill">Completed</span>
-                  </div>
+                  </div> */}
                 </div>
-                <div className="p-3 bg-white rounded shadow-sm mt-4">
-                  <div className="mb-2">
+                
+
+                  {selectedOptimizations.length > 0 ? (
+                      selectedOptimizations.slice().reverse().map((item, index) => (
+                        <div key={index} className="p-3 bg-white rounded shadow-sm mt-6 mb-2">
+                          <div className="mb-4">
+                            <div className="d-flex align-items-center justify-content-between">
+                              <h5>{item.name}</h5>                    
+                              <span className="text-success">+{item.savings}</span>
+                            </div>
+                            <p className="mt-4">{item.details}</p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No selected optimizations</p>
+                    )}
+
+
+                  {/* <div className="mb-2">
                     <div className="d-flex align-items-center justify-content-between">
                       <h5>401k</h5>                    
                       <span className="text-success">+3,000,000</span>
                     </div>
                     <p className="mt-4">Set up a 401k to save up to $5,000,000 per year</p>
-                  </div>
-                </div>
+                  </div> */}
+
               </div>
             </div>
           </div>
