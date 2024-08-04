@@ -8,6 +8,7 @@ import Onboarding1 from './pages/Onboarding1'
 import Onboarding2 from './pages/Onboarding2'
 
 
+
 const App = () => {
   return (
     <Router>
