@@ -1,6 +1,6 @@
 import React from 'react';
 import illustration from '../assets/images/llamahomepage.png';
-import logo from '../assets/images/taxllama.png';
+import logo from '../assets/images/llamalogo.png';
 
 const HomePage = () => {
   return (
@@ -14,9 +14,9 @@ const HomePage = () => {
                             src={logo}
                             className="h-16"
                             alt="..."
-                            style={{ height: '40px', marginRight: '10px' }}
+                            style={{ height: '40px' }}
                         />
-                        <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>TaxLlama</span>
+                        <span className= "" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>TaxLlama</span>
                     </a>
                     {/* Navbar toggle */}
                     <button

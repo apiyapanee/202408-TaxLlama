@@ -1,5 +1,5 @@
 import React from 'react';
-import llary from '../assets/images/taxllama.png'; // Adjust the path if necessary
+import llary from '../assets/images/llamalogo.png'; // Adjust the path if necessary
 
 const NavbarWithLlama = () => {
   return (

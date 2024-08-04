@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/images/taxllama.png'; // Adjust the path if necessary
+import logo from '../assets/images/llamalogo.png'; // Adjust the path if necessary
 
 const Navbar = () => {
   return (
