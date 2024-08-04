@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import graph from  '../assets/images/placeholder_graph.png';
+import { getAuth } from 'firebase/auth';
 
 const Dashboard = () => {
+
+  useEffect(() => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      console.log("Authenticated user ID:", user.uid);
+    } else {
+      console.log("No authenticated user.");
+    }
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -14,9 +26,9 @@ const Dashboard = () => {
               <li class="nav-item">
                 <a class="nav-link active" href="/dashboard">Dashboard</a>
               </li>
-              <li class="nav-item">
+              {/* <li class="nav-item">
                 <a class="nav-link" href="/accounts">Accounts</a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
