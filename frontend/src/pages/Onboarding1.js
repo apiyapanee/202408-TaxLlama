@@ -35,7 +35,7 @@ const Onboarding1 = () => {
                     console.log("Upload successful:", result);
                     setUploadSuccess(true);
                     setTimeout(() => {
-                        setCurrentStep(3);
+                        setCurrentStep(2);
                     }, 2000);
                 } else {
                     throw new Error('Failed to upload file');
@@ -45,19 +45,12 @@ const Onboarding1 = () => {
             }
         }
 
-        setUploadSuccess(true);
     };
 
     const handleFileUploadClick = () => {
         document.getElementById('fileInput').click(); // Trigger the hidden file input
     };
 
-    // useEffect to trigger handleNextStep when uploadSuccess is true
-    useEffect(() => {
-        if (uploadSuccess) {
-            handleNextStep();
-        }
-    }, [uploadSuccess]); // Dependency array includes uploadSuccess
 
     // loading screen junk is all below
 
