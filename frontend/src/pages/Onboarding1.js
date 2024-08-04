@@ -26,28 +26,38 @@ const Onboarding1 = () => {
             try {
                 const response = await fetch('http://localhost:5001/upload', {
                     method: 'POST',
-                    body: formData,
+                    body: formData,  // Use FormData
+                    mode: 'cors'  // Ensure CORS mode is set
                 });
 
                 if (response.ok) {
                     const result = await response.text();
-                    console.log("Result from Python:", result);
+                    console.log("Upload successful:", result);
                     setUploadSuccess(true);
                     setTimeout(() => {
                         setCurrentStep(3);
                     }, 2000);
                 } else {
-                    console.error('Upload failed');
+                    throw new Error('Failed to upload file');
                 }
             } catch (error) {
-                console.error('Failed to fetch:', error);
+                console.error('Error:', error);
             }
         }
+
+        setUploadSuccess(true);
     };
 
     const handleFileUploadClick = () => {
         document.getElementById('fileInput').click(); // Trigger the hidden file input
     };
+
+    // useEffect to trigger handleNextStep when uploadSuccess is true
+    useEffect(() => {
+        if (uploadSuccess) {
+            handleNextStep();
+        }
+    }, [uploadSuccess]); // Dependency array includes uploadSuccess
 
     // loading screen junk is all below
 
