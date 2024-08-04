@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavbarWithLlama from '../components/NavbarWithLlama';
 import llary from '../assets/images/taxllama.png';
 import { FaCheckCircle, FaEdit } from 'react-icons/fa'; 
@@ -10,16 +10,25 @@ const Onboarding1 = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
+    const [file, setFile] = useState(null); // State to store the uploaded file
+    const navigate = useNavigate(); // Create navigate instance
 
     const handleNextStep = () => {
         setCurrentStep(currentStep + 1);
       };
 
-    const handleUpload = () => {
-        console.log("placeholder");
-    }
+    const handleFileChange = (event) => {
+        const uploadedFile = event.target.files[0];
+        if (uploadedFile) {
+            setFile(uploadedFile);
+            console.log("File uploaded:", uploadedFile);
+            navigate('/onboarding2'); // Navigate to Onboarding2 after file upload
+        }
+    };
 
-
+    const handleFileUploadClick = () => {
+        document.getElementById('fileInput').click(); // Trigger the hidden file input
+    };
 
     // loading screen junk is all below
 
@@ -61,10 +70,16 @@ const Onboarding1 = () => {
                     <p className="h2 mb-4 font-weight-normal" style={{ fontWeight: 400 }}>
                         Lets start by looking at your 1040 to understand your situation
                     </p>
+                    <input
+                        type="file"
+                        id="fileInput"
+                        style={{ display: 'none' }} // Hide the file input
+                        onChange={handleFileChange}
+                    />
                     <button
                         className="btn mt-8 btn-primary mb-3"
                         style={{ backgroundColor: '#A3E4DB', color: 'black', border: '1px solid black'}}
-                        onClick={handleNextStep}
+                        onClick={handleFileUploadClick} // Trigger file upload on button click
                     >
                         Upload Files
                     </button>
