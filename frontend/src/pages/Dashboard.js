@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import graph from  '../assets/images/placeholder_graph.png';
 import { getAuth } from 'firebase/auth';
 
-const jsonData = {
+const jsonDataBackup = {
   "categories": [
     {
       "name": "Maximize Deductions",
@@ -110,6 +110,8 @@ const jsonData = {
 };
 const Dashboard = () => {
 
+  const [jsonData, setJsonData] = useState()
+
   const learnMore = () => {
     console.log("Learn More");
   }
@@ -127,6 +129,29 @@ const Dashboard = () => {
       console.log("No authenticated user.");
     }
   }, []);
+
+  useEffect(() => {
+    const getJsonData = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/data', {mode: 'cors'});
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setJsonData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setJsonData(jsonDataBackup)
+      }
+    }
+    getJsonData()
+  }, [])
+
+  if (!jsonData) {
+    return <div>
+      <h3> Loading ...</h3>
+    </div>
+  }
 
   return (
     <div>
