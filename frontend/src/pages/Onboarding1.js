@@ -9,7 +9,7 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 const Onboarding1 = () => {
 
-    const [currentStep, setCurrentStep] = useState(2);
+    const [currentStep, setCurrentStep] = useState(1);
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
     const [file, setFile] = useState(null); // State to store the uploaded file
     const [uploadSuccess, setUploadSuccess] = useState(false); // State to manage upload success message
@@ -46,7 +46,7 @@ const Onboarding1 = () => {
                     setUploadSuccess(true);
                     setTimeout(() => {
                         setCurrentStep(2);
-                    }, 2000);
+                    }, 500);
                 } else {
                     throw new Error('Failed to upload file');
                 }
@@ -133,9 +133,17 @@ const Onboarding1 = () => {
           timer = setTimeout(() => {
             setCurrentTextIndex(currentTextIndex + 1);
           }, 3000);
+        } else if (currentStep === 3 && currentTextIndex === texts.length) {
+            // Set a timeout to navigate after the progress bar completes
+            const timer = setTimeout(() => {
+                setCurrentStep(4);
+                navigate('/dashboard');
+            }, 6000);  // 15000 milliseconds = 15 seconds
+
+            return () => clearTimeout(timer);
         }
         return () => clearTimeout(timer);
-      }, [currentStep, currentTextIndex, texts.length]);
+      }, [currentStep, currentTextIndex, texts.length, navigate]);
 
     const progressBarStyle = {
         width: '0%',
