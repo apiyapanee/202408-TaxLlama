@@ -85,10 +85,10 @@ def upload_file():
     #     print("File contents:", content)  # Print the contents to the console
     #     return 'File received and contents printed on server console', 200
     
-    # if file:
-    #     responses, query_engine = parse_doc(file, queries_user_info)
-    #     print("responses: ", responses)
-    #     return 'File received and contents printed on server console', 200
+    if file:
+        responses, query_engine = parse_doc(file, queries_user_info)
+        print("responses: ", responses)
+        return 'File received and contents printed on server console', 200
       
     # if file:
     #     # Create a temporary file
