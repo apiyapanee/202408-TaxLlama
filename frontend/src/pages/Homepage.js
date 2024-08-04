@@ -86,15 +86,15 @@ const HomePage = () => {
                     <div className="col-lg-6 order-md-0">
                         {/* Surtitle */}
                         <h5 className="h5 mb-5 text-uppercase text-warning mb-5">
-                        Meet Llarry the tax Llama
+                        Say Hee-haw to Llarry the Tax Llama
                         </h5>
                         {/* Heading */}
                         <h1 className="ls-tight font-bolder display-3 mb-5">
-                        The worlds best financial llama
+                        The world's friendliest tax planner
                         </h1>
                         {/* Text */}
                         <p className="lead mb-10">
-                        Understand how your life decisions will affect your net worth over your lifetime. Let Llarry the Tax Llama optimize your life
+                        Understand how your Llife decisions impact your tax Lliability.
                         </p>
                         {/* Buttons */}
                         <div className="mx-n2">
