@@ -8,6 +8,7 @@ import Onboarding1 from './pages/Onboarding1'
 import Onboarding2 from './pages/Onboarding2'
 
 
+
 const App = () => {
   return (
     <Router>
@@ -16,7 +17,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/start" element={<Start />} />
         <Route path="/onboarding1" element={<Onboarding1 />} />
-        <Route path="/onboarding2" element={<Onboarding2 />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
       </Routes>
     </Router>
