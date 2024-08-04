@@ -17,17 +17,31 @@ const Onboarding1 = () => {
         setCurrentStep(currentStep + 1);
       };
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
         const uploadedFile = event.target.files[0];
         if (uploadedFile) {
-            setFile(uploadedFile);
-            console.log("File uploaded:", uploadedFile);
-            setUploadSuccess(true); // Set upload success to true to show the message
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
 
-            // Set a timeout to navigate after showing the success message
-            setTimeout(() => {
-              setCurrentStep(currentStep + 1);
-            }, 2000); // Adjust the delay as needed
+            try {
+                const response = await fetch('http://localhost:5001/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log("Result from Python:", result);
+                    setUploadSuccess(true);
+                    setTimeout(() => {
+                        setCurrentStep(3);
+                    }, 2000);
+                } else {
+                    console.error('Upload failed');
+                }
+            } catch (error) {
+                console.error('Failed to fetch:', error);
+            }
         }
     };
 
