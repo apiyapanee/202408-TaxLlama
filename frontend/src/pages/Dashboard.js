@@ -4,7 +4,6 @@ import graph from  '../assets/images/placeholder_graph.png';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
-
 const jsonDataBackup = {
  "categories": [
    {
