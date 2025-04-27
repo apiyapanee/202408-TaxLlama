@@ -4,6 +4,13 @@ import graph from  '../assets/images/placeholder_graph.png';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
+
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
+
+
+
+
 const jsonDataBackup = {
  "categories": [
    {
@@ -109,11 +116,38 @@ const jsonDataBackup = {
    }
  ]
 };
+
+
+
+
+// NEW
+
+
+const imageLinks = [
+  "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1476&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1463620910506-d0458143143e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?q=80&w=1402&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1612658876438-8bcb6ad0afce?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=1426&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1616514197671-15d99ce7a6f8?q=80&w=1473&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1594392167934-30e4dc2fb647?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+];
+
+const imagesPerRow = 3; // Number of images to display per row
+
+
+
+
 const Dashboard = () => {
 
 
  const [jsonData, setJsonData] = useState()
  const [selectedOptimizations, setSelectedOptimizations] = useState([]);
+
+
  const auth = getAuth();
  const db = getFirestore();
 
@@ -173,6 +207,33 @@ const Dashboard = () => {
  console.log(`Total Savings: ${totalSavings}`);
 
 
+
+
+ // new code below
+
+
+ const yearlySavings = selectedOptimizations.reduce((total, item) => {
+   const savingsStr = typeof item.savings === 'string' ? item.savings : `${item.savings}`;
+   const savings = parseFloat(savingsStr.replace(/[^0-9.-]+/g, ""));
+   return total + savings;
+ }, 0);
+
+
+ const labels = Array.from({ length: 50 }, (_, i) => `Year ${i + 1}`);
+ const data = {
+   labels: labels,
+   datasets: [
+     {
+       label: 'Cumulative Savings Over Time',
+       data: labels.map((_, i) => yearlySavings * (i + 1)),
+       fill: false,
+       backgroundColor: 'rgb(75, 192, 192)',
+       borderColor: 'rgba(75, 192, 192, 0.2)',
+     },
+   ],
+ };
+
+
   return (
    <div>
      <Navbar />
@@ -206,47 +267,51 @@ const Dashboard = () => {
                  {/* Graph Section */}
                  <div className="mt-4" style={{ flex: '1', textAlign: 'center' }}>
                    {/* Placeholder for Graph */}
-                   <img src={graph} alt="Net Worth Graph" style={{ maxWidth: '100%', width: '300px', height: '100px' }} className="img-fluid" />
+                   <Line data={data} />
                  </div>
                </div>
                {/* Tax Savings Opportunities Section */}
                {/* Dynamic Content Based on JSON */}
-               {jsonDataBackup.categories.map((category, index) => (
-               <div key={index} className="mb-4 mt-8 rounded">
-                 <h3 className="mb-4">{category.name}</h3>
-                 <div className="row">
-                   {category.approaches.map((approach, index) => (
-                     <div key={index} className="col-md-4 mb-4">
-                       <div className="d-flex flex-column border rounded overflow-hidden" style={{ height: '380px' }}>
-                       <div className="position-relative">
-                         <img src={approach.imageUrl ? approach.imageUrl : "https://via.placeholder.com/150"} alt="Recipe" className="w-100" style={{ height: '150px', objectFit: 'cover', filter: 'brightness(50%)' }} />
-                         <div className="position-absolute top-50 start-50 translate-middle text-center w-100">
-                           <p className="text-success fw-bold" style={{ fontSize: '1.5rem' }}>{approach.savings}</p>
+               {jsonDataBackup.categories.map((category, categoryIndex) => (
+                 <div key={categoryIndex} className="mb-4 mt-8 rounded">
+                   <h3 className="mb-4">{category.name}</h3>
+                   <div className="row">
+                     {category.approaches.map((approach, approachIndex) => {
+                       // Calculate the starting index for the current row
+                       const rowIndex = Math.floor(approachIndex / imagesPerRow);
+                       const imageIndex = (rowIndex * imagesPerRow + (approachIndex % imagesPerRow)) % imageLinks.length;
+
+                       return (
+                        <div key={approachIndex} className="col-md-4 mb-4">
+                        <div className="d-flex flex-column border rounded overflow-hidden" style={{ height: '380px' }}>
+                          <div className="position-relative">
+                            <img src={imageLinks[imageIndex]} alt="Approach" className="w-100" style={{ height: '150px', objectFit: 'cover', filter: 'brightness(50%)' }} />
+                            <div className="position-absolute top-50 start-50 translate-middle text-center w-100">
+                              <p className="text-success fw-bold" style={{ fontSize: '1.5rem' }}>{approach.savings}</p>
+                            </div>
+                          </div>
+                          <div className="p-3" style={{ height: '150px' }}>
+                            <h4>{approach.name}</h4>
+                            <p>{approach.details}</p>
+                          </div>
+                          <div className="d-flex justify-content-between p-3">
+                            <a href="#" className="btn btn-outline-primary btn-sm" onClick={learnMore}>Learn More</a>
+                            <a
+                              href="#"
+                              className={`btn btn-sm ${selectedOptimizations.some(item => item.name === approach.name) ? 'btn-secondary' : 'btn-outline-primary'}`}
+                              onClick={() => addItem(approach)}
+                              disabled={selectedOptimizations.some(item => item.name === approach.name)}>
+            
+                                 Add
+                               </a>
+                             </div>
+                           </div>
                          </div>
-                       </div>
-                           <div className="p-3" style={{ height: '150px' }}>
-                               <h4>{approach.name}</h4>
-                               <p>{approach.details}</p>
-                           </div>
-                           <div className="d-flex justify-content-between p-3">
-                             <a href="#" className="btn btn-outline-primary btn-sm" onClick={learnMore}>Learn More</a>
-                             <a
-                               href="#"
-                               className={`btn btn-sm ${selectedOptimizations.some(item => item.name === approach.name) ? 'btn-secondary' : 'btn-outline-primary'}`}
-                               onClick={() => addItem(approach)}
-                               disabled={selectedOptimizations.some(item => item.name === approach.name)}>
-                               Add
-                             </a>
-
-
-                           </div>
-                       </div>
-                     </div>
-                
-                   ))}
+                       );
+                     })}
+                   </div>
                  </div>
-               </div>
-             ))}
+               ))}
              </div>
            </div>
            {/* Right Column */}
@@ -307,4 +372,3 @@ const Dashboard = () => {
 
 
 export default Dashboard;
-
